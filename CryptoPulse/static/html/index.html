@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Overview - Crypto Analysis Platform</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/custom.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-chart-line me-2"></i>
+                Crypto Analysis Platform
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Market Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/analysis">Crypto Analysis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/comparison">Crypto Comparison</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/sentiment">Sentiment Analysis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/stocks">Stocks</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mt-4">
+        <!-- Loading Spinner -->
+        <div id="loading-spinner" class="text-center my-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Loading data...</p>
+        </div>
+
+        <!-- Market Overview Section -->
+        <section id="market-overview" class="mb-5">
+            <div class="card">
+                <div class="card-header d-flex align-items-center">
+                    <i class="fas fa-globe me-3" style="font-size: 1.5rem;"></i>
+                    <h2 class="mb-0">Crypto Market Overview</h2>
+                </div>
+                <div class="card-body">
+                    <!-- Market Stats Section -->
+                    <div class="row mb-4">
+                        <div class="col-md-4 mb-4 mb-md-0">
+                            <div class="card market-stat-card market-cap-card h-100">
+                                <div class="card-body">
+                                    <div class="icon">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                    <h5 class="card-title">Global Market Cap</h5>
+                                    <h3 id="global-market-cap">--</h3>
+                                    <p id="market-cap-change" class="mt-2">--</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-4 mb-md-0">
+                            <div class="card market-stat-card volume-card h-100">
+                                <div class="card-body">
+                                    <div class="icon">
+                                        <i class="fas fa-exchange-alt"></i>
+                                    </div>
+                                    <h5 class="card-title">24h Trading Volume</h5>
+                                    <h3 id="global-volume">--</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card market-stat-card dominance-card h-100">
+                                <div class="card-body">
+                                    <div class="icon">
+                                        <i class="fab fa-bitcoin"></i>
+                                    </div>
+                                    <h5 class="card-title">BTC Dominance</h5>
+                                    <h3 id="btc-dominance">--</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Market Description -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="fas fa-info-circle me-2" style="font-size: 1.25rem; color: var(--bs-primary);"></i>
+                                <h5 class="mb-0">About Cryptocurrency Market</h5>
+                            </div>
+                            <p>The cryptocurrency market is a dynamic, 24/7 global marketplace with thousands of digital assets. Use this dashboard to track key metrics and trending coins, helping you make informed investment decisions.</p>
+                        </div>
+                    </div>
+
+                    <!-- Trending Coins Section -->
+                    <div class="trending-section">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="mb-0">
+                                <i class="fas fa-fire text-warning me-2"></i>
+                                Trending Cryptocurrencies
+                            </h4>
+                            <span class="badge bg-primary px-3 py-2">Updated In Real-Time</span>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-dark" id="trending-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Coin</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">24h %</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Trending crypto data will be loaded here -->
+                                    <tr>
+                                        <td colspan="4" class="text-center">
+                                            <div class="py-4">
+                                                <div class="spinner-border text-primary mb-2" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                                <p class="mb-0">Loading trending data...</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Crypto Analysis Platform</h5>
+                    <p>A cryptocurrency analysis platform that combines market data with Reddit sentiment analysis and interactive visualizations.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Data Sources</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="https://www.coingecko.com/en/api" target="_blank" class="text-light">CoinGecko API</a></li>
+                        <li><a href="https://www.reddit.com/dev/api/" target="_blank" class="text-light">Reddit API</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Technologies</h5>
+                    <ul class="list-unstyled">
+                        <li>Flask</li>
+                        <li>Chart.js</li>
+                        <li>Bootstrap 5</li>
+                        <li>NLTK/VADER</li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center">
+                <p>&copy; 2023 Crypto Analysis Platform. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- App JS -->
+    <script src="/js/app.js"></script>
+</body>
+</html>

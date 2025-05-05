@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Market Analysis | Crypto Analysis Platform</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="/css/styles.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- All styles moved to the external styles.css file -->
+</head>
+<body class="bg-light">
+    <!-- Loading Spinner -->
+    <div id="loading-spinner">
+        <div class="d-flex flex-column align-items-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Loading data...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-chart-line me-2"></i>
+                Crypto Analysis Platform
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/analysis">Crypto Analysis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/comparison">Crypto Comparison</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/sentiment">Sentiment Analysis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/stocks">Stocks</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-4">
+        <h1 class="mb-4">
+            <i class="fas fa-chart-line me-2"></i>
+            Stock Market Analysis
+        </h1>
+
+        <!-- Market Overview Section -->
+        <section id="market-overview" class="mb-5">
+            <div class="card">
+                <div class="card-header">
+                    <h2>
+                        <i class="fas fa-chart-pie me-2"></i>
+                        Market Overview
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Market Movers Chart -->
+                        <div class="col-lg-8">
+                            <h3>Market Movers</h3>
+                            <div class="chart-container">
+                                <canvas id="movers-chart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- Market Sentiment -->
+                        <div class="col-lg-4">
+                            <h3>Market Sentiment</h3>
+                            <div class="chart-container mb-3">
+                                <canvas id="sentiment-chart"></canvas>
+                            </div>
+                            <div class="text-center">
+                                <h4>Overall Market Sentiment: <span id="overall-sentiment" class="sentiment-neutral">Neutral</span></h4>
+                                <p id="sentiment-summary" class="mt-2">Based on recent news and market activity.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stock Analysis Section -->
+        <section id="stock-analysis" class="mb-5">
+            <div class="card">
+                <div class="card-header">
+                    <h2>
+                        <i class="fas fa-search-dollar me-2"></i>
+                        Stock Analysis
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label for="stock-select" class="form-label">Select Stock</label>
+                            <select class="form-select" id="stock-select">
+                                <option value="" selected disabled>Choose a stock...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="time-range" class="form-label">Time Range</label>
+                            <select class="form-select" id="time-range">
+                                <option value="30">Last 30 Days</option>
+                                <option value="60">Last 60 Days</option>
+                                <option value="90">Last 90 Days</option>
+                                <option value="180">Last 180 Days</option>
+                                <option value="365">Last Year</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div id="stock-data-container" class="d-none">
+                        <div class="row mb-4">
+                            <!-- Stock Info Card -->
+                            <div class="col-md-4">
+                                <div class="card h-100 stock-card" id="stock-info-card">
+                                    <div class="card-header">
+                                        <h3 id="stock-name">Stock Name</h3>
+                                        <h5 id="stock-symbol" class="text-muted">SYMBOL</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <span>Current Price:</span>
+                                            <span id="stock-price" class="fs-4 fw-bold">$0.00</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <span>Change (24h):</span>
+                                            <span id="price-change" class="fs-5">0.00%</span>
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <span>Trend:</span>
+                                            <span id="trend-label">Neutral</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <span>Volatility:</span>
+                                            <span id="volatility">Low</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span>Volume:</span>
+                                            <span id="volume">0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Price Chart -->
+                            <div class="col-md-8">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <h3>Price History</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="chart-container">
+                                            <canvas id="price-chart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <!-- Volume Chart -->
+                            <div class="col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <h3>Trading Volume</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="chart-container">
+                                            <canvas id="volume-chart"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Technical Analysis -->
+                            <div class="col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <h3>Technical Analysis</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="technical-indicators" class="d-flex flex-column">
+                                            <div class="mb-3">
+                                                <h5>Moving Averages</h5>
+                                                <div class="d-flex justify-content-between">
+                                                    <div>
+                                                        <strong>7-Day MA:</strong>
+                                                        <span id="ma-7">$0.00</span>
+                                                    </div>
+                                                    <div>
+                                                        <strong>30-Day MA:</strong>
+                                                        <span id="ma-30">$0.00</span>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <strong>Price vs MA:</strong>
+                                                    <span id="price-vs-ma">Price is above/below MA</span>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <h5>Volatility</h5>
+                                                <p id="volatility-description">Stock shows low/medium/high volatility based on recent price movements.</p>
+                                            </div>
+                                            <div>
+                                                <h5>Recommendation</h5>
+                                                <p id="recommendation">Based on technical indicators, this stock appears to be in a neutral trend.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="no-stock-selected" class="text-center py-5">
+                        <i class="fas fa-chart-line fa-5x text-muted mb-3"></i>
+                        <h3 class="text-muted">Select a stock to view analysis</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- News and Sentiment Section -->
+        <section id="news-sentiment" class="mb-5">
+            <div class="card">
+                <div class="card-header">
+                    <h2>
+                        <i class="fas fa-newspaper me-2"></i>
+                        News & Sentiment
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3 d-flex justify-content-between align-items-center">
+                        <div class="input-group" style="max-width: 400px;">
+                            <input type="text" id="company-search" class="form-control" placeholder="Reliance">
+                            <button id="search-button" class="btn btn-primary">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        <div class="sentiment-filter-group btn-group" role="group">
+                            <button type="button" class="btn btn-success active news-filter" data-sentiment="all">All</button>
+                            <button type="button" class="btn btn-outline-success news-filter" data-sentiment="positive">Positive</button>
+                            <button type="button" class="btn btn-outline-warning news-filter" data-sentiment="neutral">Neutral</button>
+                            <button type="button" class="btn btn-outline-danger news-filter" data-sentiment="negative">Negative</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Popular Companies/Keywords -->
+                    <div class="mb-4">
+                        <small class="text-muted">Popular searches:</small>
+                        <div class="mt-2">
+                            <span class="badge bg-light text-dark border company-tag me-1 mb-1">Apple</span>
+                            <span class="badge bg-primary text-white company-tag me-1 mb-1">Reliance</span>
+                            <span class="badge bg-light text-dark border company-tag me-1 mb-1">Microsoft</span>
+                            <span class="badge bg-light text-dark border company-tag me-1 mb-1">ICICI Bank</span>
+                            <span class="badge bg-light text-dark border company-tag me-1 mb-1">Infosys</span>
+                            <span class="badge bg-light text-dark border company-tag me-1 mb-1">AI</span>
+                            <span class="badge bg-light text-dark border company-tag me-1 mb-1">Earnings</span>
+                            <span class="badge bg-light text-dark border company-tag me-1 mb-1">Market</span>
+                        </div>
+                    </div>
+                    
+                    <div id="news-container">
+                        <div class="row" id="news-list">
+                            <!-- News items will be populated here -->
+                            <div class="col-12 text-center py-5" id="no-news-message">
+                                <i class="fas fa-newspaper fa-5x text-muted mb-3"></i>
+                                <h3 class="text-muted">Loading latest news...</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-4 d-none" id="load-more-container">
+                            <button id="load-more-button" class="btn btn-outline-primary px-4">
+                                Load More News
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Crypto Analysis Platform</h5>
+                    <p>A comprehensive tool for analyzing cryptocurrency and stock markets, trends, and sentiment.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Navigation</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a href="/" class="nav-link text-light p-0 mb-2">Home</a></li>
+                        <li class="nav-item"><a href="/analysis" class="nav-link text-light p-0 mb-2">Crypto Analysis</a></li>
+                        <li class="nav-item"><a href="/comparison" class="nav-link text-light p-0 mb-2">Crypto Comparison</a></li>
+                        <li class="nav-item"><a href="/sentiment" class="nav-link text-light p-0 mb-2">Sentiment Analysis</a></li>
+                        <li class="nav-item"><a href="/stocks" class="nav-link text-light p-0">Stocks</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Data Sources</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a href="https://www.coingecko.com/" target="_blank" class="nav-link text-light p-0 mb-2">CoinGecko</a></li>
+                        <li class="nav-item"><a href="https://www.reddit.com/" target="_blank" class="nav-link text-light p-0 mb-2">Reddit</a></li>
+                        <li class="nav-item"><a href="https://www.nseindia.com/" target="_blank" class="nav-link text-light p-0">NSE India</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 Crypto Analysis Platform. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Stocks JavaScript -->
+    <script src="/js/stocks/stocks.js"></script>
+</body>
+</html>

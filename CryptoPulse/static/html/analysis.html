@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptocurrency Analysis - Crypto Analysis Platform</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/custom.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-chart-line me-2"></i>
+                Crypto Analysis Platform
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Market Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/analysis">Crypto Analysis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/comparison">Crypto Comparison</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/sentiment">Sentiment Analysis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/stocks">Stocks</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mt-4">
+        <!-- Loading Spinner -->
+        <div id="loading-spinner" class="text-center my-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Loading data...</p>
+        </div>
+
+        <!-- Cryptocurrency Analysis Section -->
+        <section id="crypto-analysis" class="mb-5">
+            <div class="card">
+                <div class="card-header">
+                    <h2>
+                        <i class="fas fa-chart-line me-2"></i>
+                        Cryptocurrency Analysis
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="crypto-select" class="form-label">Select Cryptocurrency</label>
+                                <select class="form-select" id="crypto-select">
+                                    <option value="" selected disabled>Choose a cryptocurrency</option>
+                                    <!-- Options will be loaded dynamically -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="time-range" class="form-label">Time Range</label>
+                                <select class="form-select" id="time-range">
+                                    <option value="7">7 Days</option>
+                                    <option value="14">14 Days</option>
+                                    <option value="30" selected>30 Days</option>
+                                    <option value="90">90 Days</option>
+                                    <option value="180">180 Days</option>
+                                    <option value="365">1 Year</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="crypto-info" class="d-none mb-4">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center">
+                                    <img id="crypto-icon" src="" alt="Cryptocurrency icon" class="me-3" style="width: 64px; height: 64px;">
+                                    <div>
+                                        <h3 id="crypto-name">--</h3>
+                                        <div class="d-flex">
+                                            <h1 id="crypto-price" class="me-2">--</h1>
+                                            <span id="crypto-change" class="align-self-center">--</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-6 col-md-4 mb-2">
+                                        <div class="small text-muted">Market Cap</div>
+                                        <div id="crypto-market-cap">--</div>
+                                    </div>
+                                    <div class="col-6 col-md-4 mb-2">
+                                        <div class="small text-muted">Volume (24h)</div>
+                                        <div id="crypto-volume">--</div>
+                                    </div>
+                                    <div class="col-6 col-md-4 mb-2">
+                                        <div class="small text-muted">Circulating Supply</div>
+                                        <div id="crypto-supply">--</div>
+                                    </div>
+                                    <div class="col-6 col-md-4 mb-2">
+                                        <div class="small text-muted">All-Time High</div>
+                                        <div id="crypto-ath">--</div>
+                                    </div>
+                                    <div class="col-6 col-md-4 mb-2">
+                                        <div class="small text-muted">ATH Change</div>
+                                        <div id="crypto-ath-change">--</div>
+                                    </div>
+                                    <div class="col-6 col-md-4 mb-2">
+                                        <div class="small text-muted">ATH Date</div>
+                                        <div id="crypto-ath-date">--</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="crypto-analysis-section" class="d-none">
+                        <div class="row mb-4">
+                            <div class="col-lg-8 mb-4 mb-lg-0">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <h5>Price Chart</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="price-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <h5>Technical Analysis</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <h6>Trend</h6>
+                                            <div id="trend-indicator" class="d-flex align-items-center">--</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <h6>Moving Averages</h6>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="small text-muted">MA7</div>
+                                                    <div id="ma7">--</div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="small text-muted">MA14</div>
+                                                    <div id="ma14">--</div>
+                                                </div>
+                                                <div class="col-6 mt-2">
+                                                    <div class="small text-muted">MA30</div>
+                                                    <div id="ma30">--</div>
+                                                </div>
+                                                <div class="col-6 mt-2">
+                                                    <div class="small text-muted">MA50</div>
+                                                    <div id="ma50">--</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <h6>Volatility</h6>
+                                            <div class="progress" style="height: 8px;">
+                                                <div id="volatility-bar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                            <div class="d-flex justify-content-between mt-1">
+                                                <span class="small">Low</span>
+                                                <span id="volatility-value" class="small">--</span>
+                                                <span class="small">High</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h6>Price Prediction (7d)</h6>
+                                            <div class="d-flex justify-content-between">
+                                                <div id="price-low">--</div>
+                                                <div id="price-current">--</div>
+                                                <div id="price-high">--</div>
+                                            </div>
+                                            <div class="progress mt-1" style="height: 8px;">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+                                            </div>
+                                            <div class="d-flex justify-content-between mt-1">
+                                                <span class="small">Range Low</span>
+                                                <span class="small">Range High</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4 mb-md-0">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <h5>Volume Analysis</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="volume-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <h5>Price Performance</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <div class="text-center mb-3">
+                                                    <h6>7 Days</h6>
+                                                    <div id="performance-7d" class="performance-value">--</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="text-center mb-3">
+                                                    <h6>14 Days</h6>
+                                                    <div id="performance-14d" class="performance-value">--</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="text-center mb-3">
+                                                    <h6>30 Days</h6>
+                                                    <div id="performance-30d" class="performance-value">--</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <canvas id="performance-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="market-movers" class="mb-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-4 mb-md-0">
+                                <div class="card h-100">
+                                    <div class="card-header bg-success text-white">
+                                        <h5><i class="fas fa-arrow-up me-2"></i>Top Gainers (24h)</h5>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Coin</th>
+                                                        <th scope="col">Price</th>
+                                                        <th scope="col">24h %</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="top-gainers-table">
+                                                    <tr>
+                                                        <td colspan="3" class="text-center py-3">
+                                                            <div class="spinner-border spinner-border-sm text-primary me-2" role="status">
+                                                                <span class="visually-hidden">Loading...</span>
+                                                            </div>
+                                                            <span>Loading...</span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-header bg-danger text-white">
+                                        <h5><i class="fas fa-arrow-down me-2"></i>Top Losers (24h)</h5>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Coin</th>
+                                                        <th scope="col">Price</th>
+                                                        <th scope="col">24h %</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="top-losers-table">
+                                                    <tr>
+                                                        <td colspan="3" class="text-center py-3">
+                                                            <div class="spinner-border spinner-border-sm text-primary me-2" role="status">
+                                                                <span class="visually-hidden">Loading...</span>
+                                                            </div>
+                                                            <span>Loading...</span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="no-crypto-selected" class="text-center py-5">
+                        <i class="fas fa-chart-bar fa-4x mb-3 text-muted"></i>
+                        <h4>Select a cryptocurrency to view analysis</h4>
+                        <p class="text-muted">Choose from the dropdown menu above to get started</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Crypto Analysis Platform</h5>
+                    <p>A cryptocurrency analysis platform that combines market data with Reddit sentiment analysis and interactive visualizations.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Data Sources</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="https://www.coingecko.com/en/api" target="_blank" class="text-light">CoinGecko API</a></li>
+                        <li><a href="https://www.reddit.com/dev/api/" target="_blank" class="text-light">Reddit API</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Technologies</h5>
+                    <ul class="list-unstyled">
+                        <li>Flask</li>
+                        <li>Chart.js</li>
+                        <li>Bootstrap 5</li>
+                        <li>NLTK/VADER</li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center">
+                <p>&copy; 2023 Crypto Analysis Platform. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- App JS -->
+    <script src="/js/charts.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>

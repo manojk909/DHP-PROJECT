@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis - Crypto Analysis Platform</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/custom.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-chart-line me-2"></i>
+                Crypto Analysis Platform
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Market Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/analysis">Crypto Analysis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/comparison">Crypto Comparison</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/sentiment">Sentiment Analysis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/stocks">Stocks</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mt-4">
+        <!-- Loading Spinner -->
+        <div id="loading-spinner" class="text-center my-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Loading data...</p>
+        </div>
+
+        <!-- Sentiment Analysis Section -->
+        <section id="sentiment-analysis" class="mb-5">
+            <!-- Text Sentiment Analysis Card -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2>
+                        <i class="fas fa-comment-alt me-2"></i>
+                        Text Sentiment Analyzer
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                <label for="sentiment-text" class="form-label">Enter Text to Analyze</label>
+                                <textarea class="form-control" id="sentiment-text" rows="4" placeholder="Enter any text to analyze its sentiment..."></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <button id="analyze-text-button" class="btn btn-primary">
+                                    <i class="fas fa-search me-2"></i>
+                                    Analyze Text Sentiment
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div id="text-sentiment-results" class="card h-100 d-none">
+                                <div class="card-header">
+                                    <h5>Sentiment Analysis Results</h5>
+                                </div>
+                                <div class="card-body text-center">
+                                    <div id="text-sentiment-icon" class="display-1 mb-3">
+                                        <i class="fas fa-meh text-warning"></i>
+                                    </div>
+                                    <h4 id="text-overall-sentiment">Neutral</h4>
+                                    <div class="mt-3">
+                                        <div class="mb-2">
+                                            <span class="badge bg-success">Positive: <span id="text-positive-score">0%</span></span>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="badge bg-warning">Neutral: <span id="text-neutral-score">0%</span></span>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="badge bg-danger">Negative: <span id="text-negative-score">0%</span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reddit Sentiment Analysis Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>
+                        <i class="fas fa-comments me-2"></i>
+                        Reddit Sentiment Analysis
+                    </h2>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="search-query" class="form-label">Search Term</label>
+                                <input type="text" class="form-control" id="search-query" placeholder="Enter cryptocurrency name or symbol (e.g., Bitcoin, BTC)">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="subreddit-select" class="form-label">Subreddit</label>
+                                <select class="form-select" id="subreddit-select">
+                                    <option value="cryptocurrency" selected>r/cryptocurrency</option>
+                                    <option value="bitcoin">r/bitcoin</option>
+                                    <option value="cryptomarkets">r/cryptomarkets</option>
+                                    <option value="ethtrader">r/ethtrader</option>
+                                    <option value="btc">r/btc</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="post-limit" class="form-label">Number of Posts</label>
+                                <select class="form-select" id="post-limit">
+                                    <option value="25">25 posts</option>
+                                    <option value="50">50 posts</option>
+                                    <option value="75">75 posts</option>
+                                    <option value="100" selected>100 posts</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mb-4">
+                        <button id="analyze-button" class="btn btn-primary">
+                            <i class="fas fa-search me-2"></i>
+                            Analyze Sentiment
+                        </button>
+                    </div>
+
+                    <div id="sentiment-results" class="d-none">
+                        <div class="row mb-4">
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <h5>Overall Sentiment</h5>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <div id="sentiment-icon" class="display-1 mb-3">
+                                            <i class="fas fa-meh text-warning"></i>
+                                        </div>
+                                        <h4 id="overall-sentiment">Neutral</h4>
+                                        <p id="posts-analyzed" class="text-muted">Based on 0 posts</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 col-md-6">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <canvas id="sentiment-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h4 class="mb-3">Top Posts</h4>
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="sentiment-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="w-50">Title</th>
+                                        <th scope="col" class="d-none d-md-table-cell">Score</th>
+                                        <th scope="col" class="d-none d-md-table-cell">Comments</th>
+                                        <th scope="col">Sentiment</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Post data will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div id="no-sentiment-data" class="text-center py-5">
+                        <i class="fas fa-search fa-4x mb-3 text-muted"></i>
+                        <h4>No sentiment analysis results yet</h4>
+                        <p class="text-muted">Enter a search term and click "Analyze Sentiment" to get started</p>
+                    </div>
+                    
+                    <div id="loading-spinner" class="text-center py-5 d-none">
+                        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <h4 class="mt-3">Analyzing sentiment...</h4>
+                        <p class="text-muted">This may take a moment</p>
+                    </div>
+                    
+                    <div id="api-credentials-missing" class="d-none">
+                        <!-- API credentials missing alert will be injected here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Crypto Analysis Platform</h5>
+                    <p>A cryptocurrency analysis platform that combines market data with Reddit sentiment analysis and interactive visualizations.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Data Sources</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="https://www.coingecko.com/en/api" target="_blank" class="text-light">CoinGecko API</a></li>
+                        <li><a href="https://www.reddit.com/dev/api/" target="_blank" class="text-light">Reddit API</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>Technologies</h5>
+                    <ul class="list-unstyled">
+                        <li>Flask</li>
+                        <li>Chart.js</li>
+                        <li>Bootstrap 5</li>
+                        <li>NLTK/VADER</li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center">
+                <p>&copy; 2023 Crypto Analysis Platform. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- App JS -->
+    <script src="/js/sentiment.js"></script>
+</body>
+</html>

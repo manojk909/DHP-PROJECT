@@ -1,0 +1,259 @@
+/* Global Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 24px;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+}
+
+.card-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    font-weight: 500;
+}
+
+/* Market Overview Styles */
+.market-stat-card {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.market-stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.market-stat-card .icon {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.market-stat-card h3 {
+    font-size: 1.75rem;
+    font-weight: bold;
+}
+
+.market-cap-card {
+    background: linear-gradient(135deg, #e3ffe7 0%, #d9e7ff 100%);
+}
+
+.volume-card {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.dominance-card {
+    background: linear-gradient(135deg, #fff6e5 0%, #f8d5a8 100%);
+}
+
+/* Data Visualizations */
+.chart-container {
+    min-height: 300px;
+    position: relative;
+}
+
+/* Trending Table */
+#trending-table th, #trending-table td {
+    vertical-align: middle;
+}
+
+#trending-table .coin-data {
+    display: flex;
+    align-items: center;
+}
+
+#trending-table .coin-icon {
+    width: 28px;
+    height: 28px;
+    margin-right: 8px;
+}
+
+.positive {
+    color: #28a745;
+}
+
+.negative {
+    color: #dc3545;
+}
+
+/* Cryptocurrency Analysis Page */
+#crypto-info {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+#crypto-icon {
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.performance-value {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+#volatility-bar {
+    background-color: #17a2b8;
+}
+
+/* Stock Market Styles */
+.sentiment-positive {
+    color: #28a745;
+}
+
+.sentiment-negative {
+    color: #dc3545;
+}
+
+.sentiment-neutral {
+    color: #ffc107;
+}
+
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+
+.stock-card {
+    transition: transform 0.2s;
+}
+
+.stock-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.news-item {
+    border-left: 3px solid transparent;
+    padding-left: 15px;
+    margin-bottom: 10px;
+}
+
+.news-item.positive {
+    border-left-color: #28a745;
+}
+
+.news-item.negative {
+    border-left-color: #dc3545;
+}
+
+.news-item.neutral {
+    border-left-color: #ffc107;
+}
+
+.company-tag {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.85rem;
+    font-weight: normal;
+    border-radius: 0.25rem;
+    padding: 0.4rem 0.75rem;
+}
+
+.company-tag:hover {
+    background-color: #007bff !important;
+    color: white !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+/* Sentiment filter buttons styling */
+.sentiment-filter-group {
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.sentiment-filter-group .btn {
+    border-radius: 0;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border: 1px solid #dee2e6;
+    min-width: 5rem;
+}
+
+.sentiment-filter-group .btn-success {
+    background-color: #198754;
+    border-color: #198754;
+}
+
+.sentiment-filter-group .btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.sentiment-filter-group .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.sentiment-filter-group .btn:first-child {
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+}
+
+.sentiment-filter-group .btn:last-child {
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+
+#loading-spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+/* Comparison page styles */
+.crypto-badge {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 20px;
+    padding: 8px 15px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    display: inline-flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+.crypto-badge .remove-btn {
+    margin-left: 8px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.crypto-badge .remove-btn:hover {
+    opacity: 1;
+}
+
+.comparison-table th, .comparison-table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.comparison-table th:first-child, .comparison-table td:first-child {
+    text-align: left;
+}
